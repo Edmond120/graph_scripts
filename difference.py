@@ -9,9 +9,9 @@ def main(args):
 	file2 = open(args[1], 'r')
 
 	while True:
-		line1 = file1.readline()
-		line2 = file2.readline()
-		if line1 == '' and line2 == '':
+		line1 = file1.readline().strip()
+		line2 = file2.readline().strip()
+		if line1 == '' or line2 == '':
 			break
 
 		num1 = int(line1.split(' ')[-1])
