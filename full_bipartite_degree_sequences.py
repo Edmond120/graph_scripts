@@ -110,7 +110,8 @@ def compositions(combination):
 
 def complete_bipartites(order):
 	start = order - 1
-	for left in range(start, (order // 2) - 1, -1):
+	end = (order // 2) - 1 if order % 2 == 0 else (order // 2)
+	for left in range(start, end, -1):
 		right = order - left
 		yield (left, right)
 
