@@ -93,14 +93,19 @@ def full_bipartite_degree_sequences(n, print_graphs=False, print_same_seq_graphs
 			if print_graphs:
 				print(graph)
 			graph_count += 1
-			if print_same_seq_graphs and sequence in sequences:
-				print(f'sequence: {compress_sequence(sequence)}')
-				print('graphs:')
-				print(f'\t{graph}')
-				print(f'\t{sequences[sequence]}')
-				print()
+			if sequence in sequences:
+				sequences[sequence].append(graph)
 			else:
-				sequences[sequence] = graph
+				sequences[sequence] = [graph]
+
+	if print_same_seq_graphs:
+		for sequence in sorted(sequences, reverse=True):
+			if len(sequences[sequence]) == 1: continue
+			print(f'sequence: {compress_sequence(sequence)}')
+			print('graphs:')
+			for graph in sorted(sequences[sequence], reverse=True):
+				print(f'\t{graph}')
+			print()
 
 	return (sequences, graph_count)
 
