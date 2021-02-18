@@ -28,16 +28,20 @@ def main(args):
 		eprint('	-c prints graph_count')
 		eprint('	-s prints sequences')
 		eprint('	-sc prints sequence_count')
+		eprint('	-sr prints sequence (with repeats) for each graph')
 		eprint('	-pg prints graphs')
 		eprint('	-pssg prints graphs with same degree sequences')
+		eprint('	-cbg prints number of complete bipartite subgraph for each graph')
 		return 1
 
 	flags = {
 		'-c'    : 'print_count',
 		'-s'    : 'print_sequences',
 		'-sc'   : 'print_sequence_count',
+		'-sr'   : 'print_sequences_repeat',
 		'-pg'   : 'print_graphs',
 		'-pssg' : 'print_same_seq_graphs',
+		'-cbg'   : 'print_complete_bipartite_graph_count',
 	}
 
 	tripped_flags = set()
@@ -65,7 +69,10 @@ def main(args):
 
 	data = full_bipartite_degree_sequences(n,
 			'print_graphs' in tripped_flags,
-			'print_same_seq_graphs' in tripped_flags)
+			'print_same_seq_graphs' in tripped_flags,
+			'print_sequences_repeat' in tripped_flags,
+			'print_complete_bipartite_graph_count' in tripped_flags)
+
 	if 'print_count' in tripped_flags:
 		print(f'graphs (vertices: {n}):', data[1])
 
@@ -78,7 +85,8 @@ def main(args):
 
 	return 0
 
-def full_bipartite_degree_sequences(n, print_graphs=False, print_same_seq_graphs=False):
+def full_bipartite_degree_sequences(n, print_graphs=False, print_same_seq_graphs=False,
+		print_sequences_repeat=False, print_complete_bipartite_graph_count=False):
 	"""
 	n: number of vertices
 
@@ -92,6 +100,10 @@ def full_bipartite_degree_sequences(n, print_graphs=False, print_same_seq_graphs
 		for sequence, graph in degree_sequences(compositions(combination)):
 			if print_graphs:
 				print(graph)
+			if print_sequences_repeat:
+				print(sequence)
+			if print_complete_bipartite_graph_count:
+				print(len(graph))
 			graph_count += 1
 			if sequence in sequences:
 				sequences[sequence].append(graph)
