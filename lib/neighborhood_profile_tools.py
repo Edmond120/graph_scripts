@@ -25,7 +25,7 @@ def get_n_profile(graph, func, inclusive=True):
 		neighborhood_degree_sequences.append(degree_sequence)
 
 	n_profile = [func(seq) for seq in neighborhood_degree_sequences]
-	n_profile.sort()
+	n_profile.sort(reverse=True)
 	return n_profile
 
 def get_Imax_profile(graph):
