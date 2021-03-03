@@ -26,7 +26,7 @@ def get_n_profile(graph, func, inclusive=True):
 
 	n_profile = [func(seq) for seq in neighborhood_degree_sequences]
 	n_profile.sort(reverse=True)
-	return n_profile
+	return tuple(n_profile)
 
 def get_Imax_profile(graph):
 	return get_n_profile(graph, lambda s: max(s, default=0))
@@ -39,9 +39,6 @@ def get_Imin_profile(graph):
 
 def get_Emin_profile(graph):
 	return get_n_profile(graph, lambda s: min(s, default=0), inclusive=False)
-
-def get_uniq_results(iterable, function):
-	return { function(x) for x in iterable }
 
 def profiles_in_file(filename, profile_func):
 	for graph in parse_graph_file(filename):

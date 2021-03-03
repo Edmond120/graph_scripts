@@ -64,28 +64,28 @@ def main(args):
 def Imax_profiles(args):
 	"args: <filename>"
 	filename = args[0]
-	for profile in profiles_in_file(filename, get_Imax_profile):
+	for profile in sorted(set(profiles_in_file(filename, get_Imax_profile)), reverse=True):
 		print(profile)
 
 @command('Imin')
 def Imin_profiles(args):
 	"args: <filename>"
 	filename = args[0]
-	for profile in profiles_in_file(filename, get_Imin_profile):
+	for profile in sorted(set(profiles_in_file(filename, get_Imin_profile)), reverse=True):
 		print(profile)
 
 @command('Emax')
 def Emax_profiles(args):
 	"args: <filename>"
 	filename = args[0]
-	for profile in profiles_in_file(filename, get_Emax_profile):
+	for profile in sorted(set(profiles_in_file(filename, get_Emax_profile)), reverse=True):
 		print(profile)
 
 @command('Emin')
 def Emin_profiles(args):
 	"args: <filename>"
 	filename = args[0]
-	for profile in profiles_in_file(filename, get_Emin_profile):
+	for profile in sorted(set(profiles_in_file(filename, get_Emin_profile)), reverse=True):
 		print(profile)
 
 if __name__ == '__main__':
