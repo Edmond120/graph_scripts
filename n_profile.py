@@ -2,6 +2,7 @@
 import sys
 from lib.neighborhood_profile_tools import *
 from inspect import getdoc
+from ast import literal_eval
 
 flags = {
 	'-h' : 'help',
@@ -111,6 +112,31 @@ def Emin_count(args):
 	"args: <filename>"
 	filename = args[0]
 	print(f'{filename}: {len(set(profiles_in_file(filename, get_Emin_profile)))}')
+
+@command('fb_n_profile')
+def full_bipartite_graph_n_profiles(args):
+	"""args: <filename> <Imax,Emax,Imin,Emin>
+	file is in the format of full_bipartie_degree_sequences.py -pg <n>"""
+	filename, profile = args
+	profile_func = {
+		'Imax' : lambda s: max(s),
+		'Emax' : lambda s: max(s[:-1]),
+		'Imin' : lambda s: min(s),
+		'Emin' : lambda s: min(s[:-1]),
+	}[profile]
+	with open(filename, 'r') as file:
+		for line in file:
+			fb = literal_eval(line)
+			profile = []
+			for cb in fb:
+				left, right = cb
+				for _ in range(left):
+					profile.append(profile_func( (left,) * right + (right,) ))
+				for _ in range(right):
+					profile.append(profile_func( (right,) * left + (left,) ))
+			profile.sort(reverse=True)
+			print(profile)
+
 
 if __name__ == '__main__':
 	exit(main(sys.argv))
