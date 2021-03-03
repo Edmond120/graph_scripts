@@ -40,5 +40,5 @@ def get_Imin_profile(graph):
 def get_Emin_profile(graph):
 	return get_n_profile(graph, min, inclusive=False)
 
-def count_uniq_results(iterable, function):
-	return len({ function(x) for x in iterable })
+def get_uniq_results(iterable, function):
+	return { function(x) for x in iterable }
