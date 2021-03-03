@@ -61,57 +61,30 @@ def main(args):
 			return 1
 	return 0
 
-@command('Imax')
-def Imax_profiles(args):
-	"args: <filename>"
-	filename = args[0]
-	for profile in sorted(set(profiles_in_file(filename, get_Imax_profile)), reverse=True):
+@command('profile')
+def n_profile(args):
+	"args: <Imax,Imin,Emax,Emin> <filename>"
+	profile_type, filename = args
+	profile_func = {
+		'Imax' : get_Imax_profile,
+		'Imin' : get_Imin_profile,
+		'Emax' : get_Emax_profile,
+		'Emin' : get_Emin_profile,
+	}[profile_type]
+	for profile in sorted(set(profiles_in_file(filename, profile_func)), reverse=True):
 		print(profile)
 
-@command('Imin')
-def Imin_profiles(args):
-	"args: <filename>"
-	filename = args[0]
-	for profile in sorted(set(profiles_in_file(filename, get_Imin_profile)), reverse=True):
-		print(profile)
-
-@command('Emax')
-def Emax_profiles(args):
-	"args: <filename>"
-	filename = args[0]
-	for profile in sorted(set(profiles_in_file(filename, get_Emax_profile)), reverse=True):
-		print(profile)
-
-@command('Emin')
-def Emin_profiles(args):
-	"args: <filename>"
-	filename = args[0]
-	for profile in sorted(set(profiles_in_file(filename, get_Emin_profile)), reverse=True):
-		print(profile)
-
-@command()
-def Imax_count(args):
-	"args: <filename>"
-	filename = args[0]
-	print(f'{filename}: {len(set(profiles_in_file(filename, get_Imax_profile)))}')
-
-@command()
-def Imin_count(args):
-	"args: <filename>"
-	filename = args[0]
-	print(f'{filename}: {len(set(profiles_in_file(filename, get_Imin_profile)))}')
-
-@command()
-def Emax_count(args):
-	"args: <filename>"
-	filename = args[0]
-	print(f'{filename}: {len(set(profiles_in_file(filename, get_Emax_profile)))}')
-
-@command()
-def Emin_count(args):
-	"args: <filename>"
-	filename = args[0]
-	print(f'{filename}: {len(set(profiles_in_file(filename, get_Emin_profile)))}')
+@command('profile_count')
+def n_profile_count(args):
+	"args: <Imax,Imin,Emax,Emin> <filename>"
+	profile_type, filename = args
+	profile_func = {
+		'Imax' : get_Imax_profile,
+		'Imin' : get_Imin_profile,
+		'Emax' : get_Emax_profile,
+		'Emin' : get_Emin_profile,
+	}[profile_type]
+	print(f'{filename}: {len(set(profiles_in_file(filename, profile_func)))}')
 
 @command('fb_n_profile')
 def full_bipartite_graph_n_profiles(args):
