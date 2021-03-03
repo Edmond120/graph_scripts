@@ -88,5 +88,29 @@ def Emin_profiles(args):
 	for profile in sorted(set(profiles_in_file(filename, get_Emin_profile)), reverse=True):
 		print(profile)
 
+@command()
+def Imax_count(args):
+	"args: <filename>"
+	filename = args[0]
+	print(f'{filename}: {len(set(profiles_in_file(filename, get_Imax_profile)))}')
+
+@command()
+def Imin_count(args):
+	"args: <filename>"
+	filename = args[0]
+	print(f'{filename}: {len(set(profiles_in_file(filename, get_Imin_profile)))}')
+
+@command()
+def Emax_count(args):
+	"args: <filename>"
+	filename = args[0]
+	print(f'{filename}: {len(set(profiles_in_file(filename, get_Emax_profile)))}')
+
+@command()
+def Emin_count(args):
+	"args: <filename>"
+	filename = args[0]
+	print(f'{filename}: {len(set(profiles_in_file(filename, get_Emin_profile)))}')
+
 if __name__ == '__main__':
 	exit(main(sys.argv))
