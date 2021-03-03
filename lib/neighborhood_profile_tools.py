@@ -1,4 +1,4 @@
-from . import graph_parser
+from .graph_parser import *
 
 def get_n_profile(graph, func, inclusive=True):
 	"""The arg 'graph' is a dict with vertices as keys. The values are
@@ -29,16 +29,20 @@ def get_n_profile(graph, func, inclusive=True):
 	return n_profile
 
 def get_Imax_profile(graph):
-	return get_n_profile(graph, max)
+	return get_n_profile(graph, lambda s: max(s, default=0))
 
 def get_Emax_profile(graph):
-	return get_n_profile(graph, max, inclusive=False)
+	return get_n_profile(graph, lambda s: max(s, default=0), inclusive=False)
 
 def get_Imin_profile(graph):
-	return get_n_profile(graph, min)
+	return get_n_profile(graph, lambda s: min(s, default=0))
 
 def get_Emin_profile(graph):
-	return get_n_profile(graph, min, inclusive=False)
+	return get_n_profile(graph, lambda s: min(s, default=0), inclusive=False)
 
 def get_uniq_results(iterable, function):
 	return { function(x) for x in iterable }
+
+def profiles_in_file(filename, profile_func):
+	for graph in parse_graph_file(filename):
+		yield profile_func(graph)
