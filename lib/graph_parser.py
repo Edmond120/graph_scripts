@@ -1,10 +1,10 @@
 import subprocess
 import sys
 
-def parse_graph_file(file_):
+def parse_graph_file(filename):
 	"""takes a file name and returns a generator of graphs
 	graphs implemented as a dictionary """
-	with subprocess.Popen(['showg', '-q', file_], stdout=subprocess.PIPE).stdout as pipe:
+	with subprocess.Popen(['showg', '-q', filename], stdout=subprocess.PIPE).stdout as pipe:
 		graph_lines = []
 		for line in pipe:
 			line = line.decode('utf-8')
