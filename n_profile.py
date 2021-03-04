@@ -76,15 +76,17 @@ def n_profile(args):
 
 @command('profile_count')
 def n_profile_count(args):
-	"args: <Imax,Imin,Emax,Emin> <filename>"
-	profile_type, filename = args
+	"args: <Imax,Imin,Emax,Emin> <filename> [<filename> ...]"
+	profile_type = args[0]
+	filenames = args[1:]
 	profile_func = {
 		'Imax' : get_Imax_profile,
 		'Imin' : get_Imin_profile,
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
 	}[profile_type]
-	print(f'{filename}: {len(set(profiles_in_file(filename, profile_func)))}')
+	for filename in filenames:
+		print(f'{filename}: {len(set(profiles_in_file(filename, profile_func)))}')
 
 @command('fb_n_profile')
 def full_bipartite_graph_n_profiles(args):
