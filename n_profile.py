@@ -62,7 +62,7 @@ def main(args):
 	return 0
 
 @command('profile')
-def n_profile(args):
+def n_profile(args, *, simple=False):
 	"args: <Imax,Imin,Emax,Emin> <filename>"
 	profile_type, filename = args
 	profile_func = {
@@ -71,8 +71,18 @@ def n_profile(args):
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
 	}[profile_type]
-	for profile in sorted(set(profiles_in_file(filename, profile_func)), reverse=True):
-		print(profile)
+	if simple:
+		for profile in profiles_in_file(filename, profile_func):
+			print(profile)
+	else:
+		for profile in sorted(set(profiles_in_file(filename, profile_func)), reverse=True):
+			print(profile)
+
+@command('profile_simple')
+def n_profile_simple(args):
+	"""same as profile except the order of the profiles matches the
+	order of the graphs. Will not filter for unique profiles nor sort them."""
+	n_profile(args, simple=True)
 
 @command('profile_count')
 def n_profile_count(args):
@@ -89,7 +99,7 @@ def n_profile_count(args):
 		print(f'{filename}: {len(set(profiles_in_file(filename, profile_func)))}')
 
 @command('fb_n_profile')
-def full_bipartite_graph_n_profiles(args):
+def full_bipartite_graph_n_profiles(args, *, simple=False):
 	"""args: <Imax,Emax,Imin,Emin> <filename>
 	file is in the format of full_bipartie_degree_sequences.py -pg <n>"""
 	profile_name, filename = args
@@ -100,7 +110,7 @@ def full_bipartite_graph_n_profiles(args):
 		'Emin' : lambda s: min(s[:-1]),
 	}[profile_name]
 	with open(filename, 'r') as file:
-		profiles = set()
+		profiles = []
 		for line in file:
 			fb = literal_eval(line)
 			profile = []
@@ -111,9 +121,19 @@ def full_bipartite_graph_n_profiles(args):
 				for _ in range(right):
 					profile.append(profile_func( (right,) * left + (left,) ))
 			profile.sort(reverse=True)
-			profiles.add(tuple(profile))
-		for p in sorted(profiles, reverse=True):
-			print(p)
+			profiles.append(tuple(profile))
+		if simple:
+			for line in profiles:
+				print(line)
+		else:
+			for p in sorted(set(profiles), reverse=True):
+				print(p)
+
+@command('fb_n_profile_simple')
+def simple_fbg_n_profiles(args):
+	"""same as fb_n_profile except the order of the profiles matches the
+	order of the graphs. Will not filter for unique profiles nor sort them."""
+	full_bipartite_graph_n_profiles(args, simple=True)
 
 if __name__ == '__main__':
 	exit(main(sys.argv))
