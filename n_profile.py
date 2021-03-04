@@ -88,16 +88,17 @@ def n_profile_count(args):
 
 @command('fb_n_profile')
 def full_bipartite_graph_n_profiles(args):
-	"""args: <filename> <Imax,Emax,Imin,Emin>
+	"""args: <Imax,Emax,Imin,Emin> <filename>
 	file is in the format of full_bipartie_degree_sequences.py -pg <n>"""
-	filename, profile = args
+	profile_name, filename = args
 	profile_func = {
 		'Imax' : lambda s: max(s),
 		'Emax' : lambda s: max(s[:-1]),
 		'Imin' : lambda s: min(s),
 		'Emin' : lambda s: min(s[:-1]),
-	}[profile]
+	}[profile_name]
 	with open(filename, 'r') as file:
+		profiles = set()
 		for line in file:
 			fb = literal_eval(line)
 			profile = []
@@ -108,8 +109,9 @@ def full_bipartite_graph_n_profiles(args):
 				for _ in range(right):
 					profile.append(profile_func( (right,) * left + (left,) ))
 			profile.sort(reverse=True)
-			print(profile)
-
+			profiles.add(tuple(profile))
+		for p in sorted(profiles, reverse=True):
+			print(p)
 
 if __name__ == '__main__':
 	exit(main(sys.argv))
