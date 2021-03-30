@@ -9,11 +9,17 @@ find_popular_profiles() {(
 	cd "$dataset_dir"
 	mkdir -p "most_popular_profiles_table/$profile/"
 	while read graph; do
+		file="most_popular_profiles_table/$profile/${graph/%\.g6}"
+		if [ -f "$file" ]; then
+			echo -e "\t$file already exist, skipping"
+			read -p 'press enter to continue... ' < /dev/tty
+			continue
+		fi
 		echo -e "\t$graph"
 		lines=$(wc -l "graphs/$graph" | cut -d ' ' -f 1)
 		./programs/profiler/profiler neighborhood "$profile" "graphs/$graph" \
 		| pv --buffer-size 512M --line-mode --size "$lines" | sort | uniq -c | sort -n -r \
-		> "most_popular_profiles_table/$profile/${graph/%\.g6}"
+		> "$file"
 	done <<< "$(ls graphs)"
 )}
 
