@@ -8,19 +8,23 @@ find_popular_profiles() {(
 	echo "find_popular_profiles $dataset_dir $profile"
 	cd "$dataset_dir"
 	mkdir -p "most_popular_profiles_table/$profile/"
+	completed_list="most_popular_profiles_table/$profile/completed"
+	touch "$completed_list"
 	while read graph; do
 		file="most_popular_profiles_table/$profile/${graph/%\.showg}"
 		if [ -f "$file" ]; then
-			echo -e "\t$file already exist, skipping"
-			read -p 'press enter to continue... ' < /dev/tty
-			continue
+			if grep -qxf "$completed_list" <<< "$file"; then
+				echo -e "\t$file already completed, skipping"
+				continue
+			else
+				echo -e "\t$file is incomplete, rebuilding"
+			fi
 		fi
-		echo -e "\t$graph"
-		lines=$(wc -l "graphs_showg/$graph" | cut -d ' ' -f 1)
-		./programs/profiler/profiler \
-			neighborhood "$profile" "graphs_showg/$graph" --no-showg \
-			| pv --buffer-size 512M --line-mode --size "$lines" | sort | uniq -c | sort -n -r \
-			> "$file"
+		echo -e "\t$profile: $graph"
+		lines=$(grep '^Graph' "graphs_showg/$graph" | wc -l | cut -d ' ' -f 1)
+		./programs/profiler/profiler neighborhood "$profile" "graphs_showg/$graph" --no-showg \
+		| pv --buffer-size 512M --line-mode --size "$lines" | sort | uniq -c | sort -n -r \
+		> "$file" && echo "$file" >> "$completed_list"
 	done <<< "$(ls graphs_showg)"
 )}
 
