@@ -22,7 +22,7 @@ find_popular_profiles() {(
 			fi
 		fi
 		echo -e "\t$profile: $graph"
-		lines=$(wc -l "graphs/$graph" | cut -d ' ' -f 1)
+		lines=$(grep "$graph" "counts/$(ls counts | sort | head -n 1)" | sed 's/^ *\([0-9]\+\) .*$/\1/')
 		./programs/profiler/profiler neighborhood "$profile" "graphs/$graph" \
 		| pv --buffer-size 512M --line-mode --size "$lines" | "$script_dir/uniq.py" | sort -n -r \
 		> "$file" && echo "$file" >> "$completed_list"
