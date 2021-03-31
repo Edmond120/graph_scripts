@@ -24,7 +24,15 @@ find_popular_profiles() {(
 		lines=$(grep '^Graph' "graphs_showg/$graph" | wc -l | cut -d ' ' -f 1)
 		./programs/profiler/profiler neighborhood "$profile" "graphs_showg/$graph" --no-showg \
 		| pv --buffer-size 512M --line-mode --size "$lines" | sort | uniq -c | sort -n -r \
-		> "$file" && echo "$file" >> "$completed_list"
+		> "$file"
+		exit_codes=("${PIPESTATUS[@]}")
+		for code in "${exit_codes[@]}"; do
+			if ! [ code == '0' ]; then
+				echo "error, profile: $profile, dataset_dir: $dataset_dir"
+				exit 1
+			fi
+		done
+		echo "$file" >> "$completed_list"
 	done <<< "$(ls graphs_showg)"
 )}
 
