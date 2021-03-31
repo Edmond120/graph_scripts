@@ -28,8 +28,9 @@ find_popular_profiles() {(
 		> "$file"
 		exit_codes=("${PIPESTATUS[@]}")
 		for code in "${exit_codes[@]}"; do
-			if ! [ code == '0' ]; then
+			if ! [ "$code" == '0' ]; then
 				echo "error, profile: $profile, dataset_dir: $dataset_dir"
+				echo "exit codes: ${exit_codes[@]}"
 				exit 1
 			fi
 		done
