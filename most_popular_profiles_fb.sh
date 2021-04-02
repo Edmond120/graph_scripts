@@ -34,13 +34,16 @@ find_popular_profiles() {(
 			fi
 		done
 		echo "$file" >> "$completed_list"
-	done <<< "$(ls graphs_showg)"
+	done <<< "$(seq 2 "$VERTICES" | while read n; do printf "%02d_vertices.showg\n" "$n"; done)"
 )}
 
 if [ $# == 0 ]; then
-	echo "args: [dir in datasets...]"
+	echo "args: n [dir in datasets...]"
 	exit
 fi
+
+VERTICES=$1
+shift
 
 for dataset_dir in "$@"; do
 	find_popular_profiles "$dataset_dir" Imax
