@@ -7,11 +7,11 @@ find_popular_profiles() {(
 	profile=$2
 	echo "find_popular_profiles $dataset_dir $profile"
 	cd "$dataset_dir"
-	mkdir -p "most_popular_profiles_table/$profile/"
-	completed_list="most_popular_profiles_table/$profile/completed"
+	mkdir -p "most_popular_profiles_table/profiles/$profile/"
+	completed_list="most_popular_profiles_table/profiles/$profile/completed"
 	touch "$completed_list"
 	while read graph; do
-		file="most_popular_profiles_table/$profile/${graph/%\.showg}"
+		file="most_popular_profiles_table/profiles/$profile/${graph/%\.showg}"
 		if [ -f "$file" ]; then
 			if grep -qxf "$completed_list" <<< "$file"; then
 				echo -e "\t$file already completed, skipping"
