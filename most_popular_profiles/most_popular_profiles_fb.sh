@@ -53,4 +53,6 @@ for dataset_dir in "$@"; do
 	find_popular_profiles "$dataset_dir" Range
 	find_popular_profiles "$dataset_dir" Id
 	find_popular_profiles "$dataset_dir" Sum
+	find_popular_profiles "$dataset_dir" Different
+	find_popular_profiles "$dataset_dir" Popular
 done
