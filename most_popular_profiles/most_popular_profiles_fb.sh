@@ -1,5 +1,6 @@
 #! /usr/bin/bash
 
+set -e
 export LC_ALL=C
 
 find_popular_profiles() {(

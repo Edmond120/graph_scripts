@@ -1,5 +1,6 @@
 #! /usr/bin/bash
 
+set -e
 script_dir=$(dirname "$BASH_SOURCE")
 export LC_ALL=C
 
