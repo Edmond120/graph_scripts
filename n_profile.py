@@ -63,13 +63,14 @@ def main(args):
 
 @command('profile')
 def n_profile(args, *, simple=False):
-	"args: <Imax,Imin,Emax,Emin> <filename>"
+	"args: <Imax,Imin,Emax,Emin,Esum> <filename>"
 	profile_type, filename = args
 	profile_func = {
 		'Imax' : get_Imax_profile,
 		'Imin' : get_Imin_profile,
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
+		'Esum' : get_Esum_profile,
 	}[profile_type]
 	if simple:
 		for profile in profiles_in_file(filename, profile_func):
@@ -94,6 +95,7 @@ def n_profile_count(args):
 		'Imin' : get_Imin_profile,
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
+		'Esum' : get_Esum_profile,
 	}[profile_type]
 	for filename in filenames:
 		print(f'{filename}: {len(set(profiles_in_file(filename, profile_func)))}')
