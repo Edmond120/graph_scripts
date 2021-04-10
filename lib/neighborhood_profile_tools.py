@@ -40,6 +40,9 @@ def get_Imin_profile(graph):
 def get_Emin_profile(graph):
 	return get_n_profile(graph, lambda s: min(s, default=0), inclusive=False)
 
+def get_Isum_profile(graph):
+	return get_n_profile(graph, lambda s: sum(s), inclusive=True)
+
 def get_Esum_profile(graph):
 	return get_n_profile(graph, lambda s: sum(s), inclusive=False)
 

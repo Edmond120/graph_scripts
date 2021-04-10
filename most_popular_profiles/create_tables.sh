@@ -19,7 +19,7 @@ make_table() {(
 	if [ -f "$table_name" ]; then
 		rm "$table_name"
 	fi
-	n=$(wc -l "$(ls | head -n 1)" | cut -d ' ' -f 1)
+	n=$(wc -l "$(find -type f ! -name '*.txt' | head -n 1)" | cut -d ' ' -f 1)
 	((n=n+1))
 	paste <(seq 2 "$n") "$prefix"* | column -t -N "n,$(echo -n "$prefix"* | tr ' ' ',')" \
 		| tee "$table_name"

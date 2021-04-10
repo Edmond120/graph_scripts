@@ -63,13 +63,14 @@ def main(args):
 
 @command('profile')
 def n_profile(args, *, simple=False):
-	"args: <Imax,Imin,Emax,Emin,Esum> <filename>"
+	"args: <Imax,Imin,Emax,Emin,Isum,Esum> <filename>"
 	profile_type, filename = args
 	profile_func = {
 		'Imax' : get_Imax_profile,
 		'Imin' : get_Imin_profile,
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
+		'Isum' : get_Isum_profile,
 		'Esum' : get_Esum_profile,
 	}[profile_type]
 	if simple:
@@ -87,7 +88,7 @@ def n_profile_simple(args):
 
 @command('profile_count')
 def n_profile_count(args):
-	"args: <Imax,Imin,Emax,Emin> <filename> [<filename> ...]"
+	"args: <Imax,Imin,Emax,Emin,Isum,Esum> <filename> [<filename> ...]"
 	profile_type = args[0]
 	filenames = args[1:]
 	profile_func = {
@@ -95,6 +96,7 @@ def n_profile_count(args):
 		'Imin' : get_Imin_profile,
 		'Emax' : get_Emax_profile,
 		'Emin' : get_Emin_profile,
+		'Isum' : get_Isum_profile,
 		'Esum' : get_Esum_profile,
 	}[profile_type]
 	for filename in filenames:
@@ -102,7 +104,7 @@ def n_profile_count(args):
 
 @command('fb_n_profile')
 def full_bipartite_graph_n_profiles(args, *, simple=False):
-	"""args: <Imax,Emax,Imin,Emin> <filename>
+	"""args: <Imax,Emax,Imin,Emin,Isum,Esum> <filename>
 	file is in the format of full_bipartie_degree_sequences.py -pg <n>"""
 	profile_name, filename = args
 	profile_func = {
@@ -110,6 +112,8 @@ def full_bipartite_graph_n_profiles(args, *, simple=False):
 		'Emax' : lambda s: max(s[:-1]),
 		'Imin' : lambda s: min(s),
 		'Emin' : lambda s: min(s[:-1]),
+		'Isum' : lambda s: sum(s),
+		'Esum' : lambda s: sum(s[:-1]),
 	}[profile_name]
 	with open(filename, 'r') as file:
 		profiles = []
