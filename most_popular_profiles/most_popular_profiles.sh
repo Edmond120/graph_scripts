@@ -51,11 +51,11 @@ shift
 
 for dataset_dir in "$@"; do
 	find_popular_profiles "$dataset_dir" inclusive Max Imax
-	find_popular_profiles "$dataset_dir" inclusive Min Imin
 	find_popular_profiles "$dataset_dir" exclusive Max Emax
+	find_popular_profiles "$dataset_dir" inclusive Min Imin
 	find_popular_profiles "$dataset_dir" exclusive Min Emin
 	find_popular_profiles "$dataset_dir" inclusive Range Irange
-	find_popular_profiles "$dataset_dir" exclusive Range Rrange
+	find_popular_profiles "$dataset_dir" exclusive Range Erange
 	find_popular_profiles "$dataset_dir" inclusive Sum Isum
 	find_popular_profiles "$dataset_dir" exclusive Sum Esum
 	find_popular_profiles "$dataset_dir" inclusive Different Idifferent
