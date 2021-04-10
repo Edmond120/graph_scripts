@@ -6,21 +6,23 @@ scripts=$(realpath "$scripts")
 
 make_table() {(
 	cd "$1"
+	prefix=$2
+	table_name=$3
 	cd most_popular_profiles_table
 	mkdir -p tables
 	cd profiles
-	for profile in *; do
+	for profile in "$prefix"*; do
 		show_profile "$profile" \
 			> "../tables/$profile"
 	done
 	cd ../tables
-	if [ -f table.txt ]; then
-		rm table.txt
+	if [ -f "$table_name" ]; then
+		rm "$table_name"
 	fi
 	n=$(wc -l "$(ls | head -n 1)" | cut -d ' ' -f 1)
 	((n=n+1))
-	paste <(seq 2 "$n") * | column -t -N "n,$(echo -n * | tr ' ' ',')" \
-		| tee table.txt
+	paste <(seq 2 "$n") "$prefix"* | column -t -N "n,$(echo -n "$prefix"* | tr ' ' ',')" \
+		| tee "$table_name"
 )}
 
 show_profile() {(
@@ -31,5 +33,6 @@ show_profile() {(
 )}
 
 for dir in "$@"; do
-	make_table "$dir"
+	make_table "$dir" I inclusive_table.txt
+	make_table "$dir" E exclusive_table.txt
 done
