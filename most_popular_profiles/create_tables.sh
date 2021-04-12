@@ -21,7 +21,7 @@ make_table() {(
 	fi
 	n=$(wc -l "$(find -type f ! -name '*.txt' | head -n 1)" | cut -d ' ' -f 1)
 	((n=n+1))
-	paste <(seq 2 "$n") "$prefix"* | column -t -N "n,$(echo -n "$prefix"* | tr ' ' ',')" \
+	paste <(seq 2 "$n") Degree "$prefix"* | column -t -N "n,Degree,$(echo -n "$prefix"* | tr ' ' ',')" \
 		| tee "$table_name"
 )}
 

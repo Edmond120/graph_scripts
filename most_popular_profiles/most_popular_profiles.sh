@@ -50,6 +50,7 @@ VERTICES=$1
 shift
 
 for dataset_dir in "$@"; do
+	find_popular_profiles "$dataset_dir" exclusive Degree Degree
 	find_popular_profiles "$dataset_dir" inclusive Max Imax
 	find_popular_profiles "$dataset_dir" exclusive Max Emax
 	find_popular_profiles "$dataset_dir" inclusive Min Imin
@@ -62,4 +63,6 @@ for dataset_dir in "$@"; do
 	find_popular_profiles "$dataset_dir" exclusive Different Edifferent
 	find_popular_profiles "$dataset_dir" inclusive Popular Ipopular
 	find_popular_profiles "$dataset_dir" exclusive Popular Epopular
+	find_popular_profiles "$dataset_dir" inclusive Max_occur Imax_occur
+	find_popular_profiles "$dataset_dir" exclusive Max_occur Emax_occur
 done
