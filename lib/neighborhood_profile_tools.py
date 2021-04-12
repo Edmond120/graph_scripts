@@ -46,6 +46,21 @@ def get_Isum_profile(graph):
 def get_Esum_profile(graph):
 	return get_n_profile(graph, lambda s: sum(s), inclusive=False)
 
+def get_Imax_occur_profile(graph):
+	return get_n_profile(graph, _max_occur, inclusive=True)
+
+def get_Emax_occur_profile(graph):
+	return get_n_profile(graph, _max_occur, inclusive=False)
+
+def _max_occur(sequence):
+	counts = {}
+	for n in sequence:
+		if n in counts:
+			counts[n] += 1
+		else:
+			counts[n] = 1
+	return max(counts.values(), default=0)
+
 def profiles_in_file(filename, profile_func):
 	for graph in parse_graph_file(filename):
 		yield profile_func(graph)
