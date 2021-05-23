@@ -1,5 +1,6 @@
 #! /usr/bin/python
 import sys
+from ast import literal_eval
 import itertools
 
 def eprint(*args, **kwargs):
@@ -99,7 +100,7 @@ def full_bipartite_degree_sequences(n, print_graphs=False, print_same_seq_graphs
 	for combination in sum_combinations(n, 2, n//2):
 		for sequence, graph in degree_sequences(compositions(combination)):
 			if print_graphs:
-				print(graph)
+				print_fbg(str(graph))
 			if print_sequences_repeat:
 				print(sequence)
 			if print_complete_bipartite_graph_count:
@@ -183,6 +184,38 @@ def _sum_combinations(combinations, current, current_sum, total, low_bound, max_
 		current.append(n)
 		_sum_combinations(combinations, current, current_sum + n, total, low_bound, max_length)
 		current.pop(-1)
+
+
+def print_fbg(line):
+	graph_count = 1
+	print()
+	fg_graph_data = literal_eval(line)
+	node_label = 0
+	graph = []
+	for complete_biparite_graph in fg_graph_data:
+		left_count, right_count = reversed(complete_biparite_graph)
+		left_nodes = []
+		right_nodes = []
+		for _ in range(left_count):
+			left_nodes.append(node_label)
+			node_label += 1
+		for _ in range(right_count):
+			right_nodes.append(node_label)
+			node_label += 1
+		# Only need to store the numbers pass ':' in showg.
+		# The indicies are the graph labels on the left of the ':'.
+		for _ in left_nodes:
+			graph.append(right_nodes.copy())
+		for _ in right_nodes:
+			graph.append(left_nodes.copy())
+
+	print(f'Graph {graph_count}, order {len(graph)}.')
+	graph_count += 1
+	for i in range(len(graph)):
+		print(f'  {i} :', end='')
+		for node in graph[i]:
+			print(f' {node}', end='')
+		print(';')
 
 if __name__ == '__main__':
 	exit(main(sys.argv))
