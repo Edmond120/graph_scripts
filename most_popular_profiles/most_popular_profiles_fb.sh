@@ -64,4 +64,6 @@ for dataset_dir in "$@"; do
 	find_popular_profiles "$dataset_dir" exclusive Popular Epopular
 	find_popular_profiles "$dataset_dir" inclusive Max_occur Imax_occur
 	find_popular_profiles "$dataset_dir" exclusive Max_occur Emax_occur
+	find_popular_profiles "$dataset_dir" inclusive Id Iid
+	find_popular_profiles "$dataset_dir" exclusive Id Eid
 done
